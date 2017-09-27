@@ -25,6 +25,7 @@ public class Maintain implements Serializable{
     public String MR_SubmitStatus;
     public String MR_SubmitorPID;
     public String MR_SubmitTime;
+    public String UGO_IDs;
 
     private int state;//0 :未提交；1 :已提交
 }

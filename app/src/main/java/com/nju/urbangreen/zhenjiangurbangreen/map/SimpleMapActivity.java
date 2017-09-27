@@ -11,6 +11,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.MapView;
@@ -94,13 +95,13 @@ public class SimpleMapActivity extends BaseActivity {
         final Geometry geometry = GeoJsonUtil.String2Geometry(location);
         if(geometry != null) {
             Symbol symbol;
-            if(type.equals("000")) {
+            if (type.equals("000")) {
                 symbol = new SimpleFillSymbol(
                         ResourcesCompat.getColor(getResources(), R.color.green_land, null), SimpleFillSymbol.STYLE.SOLID);
-                ((SimpleFillSymbol)symbol).setOutline(new SimpleLineSymbol(
+                ((SimpleFillSymbol) symbol).setOutline(new SimpleLineSymbol(
                         ResourcesCompat.getColor(getResources(), R.color.green_land_border, null), 1.0f, SimpleLineSymbol.STYLE.SOLID));
 
-            } else if(type.equals("001")) {
+            } else if (type.equals("001")) {
                 symbol = new PictureMarkerSymbol(new BitmapDrawable(
                         BitmapFactory.decodeResource(getResources(), R.drawable.ancient_tree)));
             } else {
@@ -109,17 +110,20 @@ public class SimpleMapActivity extends BaseActivity {
             }
             Graphic graphic = new Graphic(geometry, symbol, null);
             curUGOLayer.addGraphic(graphic);
-            curUGOLayer.setSelectedGraphics(new int[]{(int)graphic.getId()}, true);
-        }
+            curUGOLayer.setSelectedGraphics(new int[]{(int) graphic.getId()}, true);
 
-        map.setOnStatusChangedListener(new OnStatusChangedListener() {
-            @Override
-            public void onStatusChanged(Object o, STATUS status) {
-                if(status == STATUS.INITIALIZED && o == map) {
-                    zoomTo(geometry);
+
+            map.setOnStatusChangedListener(new OnStatusChangedListener() {
+                @Override
+                public void onStatusChanged(Object o, STATUS status) {
+                    if (status == STATUS.INITIALIZED && o == map) {
+                        zoomTo(geometry);
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(this, "没有坐标", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

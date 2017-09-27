@@ -1,0 +1,27 @@
+<com.aspsine.swipetoloadlayout.SwipeToLoadLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeToLoadLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.nju.urbangreen.zhenjiangurbangreen.widget.RefreshHeaderView
+        android:id="@id/swipe_refresh_header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        />
+        <!--app:refresh_complete_delay_duration="2000"-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/swipe_target"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <com.nju.urbangreen.zhenjiangurbangreen.widget.LoadMoreFooterView
+        android:id="@id/swipe_load_more_footer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center" />
+</com.aspsine.swipetoloadlayout.SwipeToLoadLayout>

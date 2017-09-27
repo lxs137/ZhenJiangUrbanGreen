@@ -8,119 +8,145 @@ import java.util.Date;
  */
 public class Inspect implements Serializable{
 
-    private String ID;
-    private String Code;
-    private String InspectType;
-    private Date InspectDate;
-    private String CompanyID;
-    private String Inspector;
-    private String Score;
-    private String Content;
-    private String InspectOpinion;
-    private String LoggerPID;
-    private String LogTime;
-    private String LastEditorPID;
+    private String IR_ID;
+    private String IR_Code;
+    private String IR_Type;
+    private String IR_InspectDate;
+    private String IR_CompanyID;
+    private String IR_Inspector;
+    private String IR_Score;
+    private String IR_Content;
+    private String IR_InspectOpinion;
+    private String IR_LoggerPID;
+    private String IR_LogTime;
+    private String IR_LastEditorPID;
 
-    public Inspect(String id, String code)
-    {
-        this.ID=id;
-        this.Code=code;
-        this.InspectType="";
-        this.InspectDate=new Date();
-        this.CompanyID="";
-        this.Inspector="";
-        this.Score="";
-        this.Content="";
-        this.InspectOpinion="";
-        this.LoggerPID="";
-        this.LogTime="";
-        this.LastEditorPID="";
-    }
-    public Inspect(String id, String code, String inspectType, Date inspectDate, String companyID,
-                   String inspector, String score, String content, String inspectOpinion)
-    {
-        this.ID=id;
-        this.Code=code;
-        this.InspectType=inspectType;
-        this.InspectDate=inspectDate;
-        this.CompanyID=companyID;
-        this.Inspector=inspector;
-        this.Score=score;
-        this.Content=content;
-        this.InspectOpinion=inspectOpinion;
+    public String getUGO_IDs() {
+        return UGO_IDs;
     }
 
-    public String getID() {
-        return ID;
-    }
-    public String getCode() {
-        return Code;
-    }
-    public Date getInspectDate() {
-        return InspectDate;
-    }
-    public String getInspectType() {
-        return InspectType;
-    }
-    public String getCompanyID() {
-        return CompanyID;
-    }
-    public String getInspector() {
-        return Inspector;
-    }
-    public String getScore() {
-        return Score;
-    }
-    public String getContent() {
-        return Content;
-    }
-    public String getInspectOpinion() {
-        return InspectOpinion;
-    }
-    public String getLoggerPID() {
-        return LoggerPID;
-    }
-    public String getLogTime() {
-        return LogTime;
-    }
-    public String getLastEditorPID() {
-        return LastEditorPID;
+    public void setUGO_IDs(String UGO_IDs) {
+        this.UGO_IDs = UGO_IDs;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    private String UGO_IDs;
+
+    public Inspect() {
     }
-    public void setCode(String code) {
-        Code = code;
+
+    public Inspect(String IR_ID, String IR_Code, String IR_Type, String IR_InspectDate, String IR_CompanyID, String IR_Inspector, String IR_Score, String IR_Content, String IR_InspectOpinion, String IR_LoggerPID, String IR_LogTime, String IR_LastEditorPID) {
+        this.IR_ID = IR_ID;
+        this.IR_Code = IR_Code;
+        this.IR_Type = IR_Type;
+        this.IR_InspectDate = IR_InspectDate;
+        this.IR_CompanyID = IR_CompanyID;
+        this.IR_Inspector = IR_Inspector;
+        this.IR_Score = IR_Score;
+        this.IR_Content = IR_Content;
+        this.IR_InspectOpinion = IR_InspectOpinion;
+        this.IR_LoggerPID = IR_LoggerPID;
+        this.IR_LogTime = IR_LogTime;
+        this.IR_LastEditorPID = IR_LastEditorPID;
     }
-    public void setInspectDate(Date inspectDate) {
-        InspectDate = inspectDate;
+
+    public Inspect(String IR_ID, String IR_Code) {
+        this.IR_ID = IR_ID;
+        this.IR_Code = IR_Code;
     }
-    public void setInspector(String inspector) {
-        Inspector = inspector;
+
+    public String getIR_ID() {
+        return IR_ID;
     }
-    public void setCompanyID(String companyID) {
-        CompanyID = companyID;
+
+    public void setIR_ID(String IR_ID) {
+        this.IR_ID = IR_ID;
     }
-    public void setInspectType(String inspectType) {
-        InspectType = inspectType;
+
+    public String getIR_Code() {
+        return IR_Code;
     }
-    public void setContent(String content) {
-        Content = content;
+
+    public void setIR_Code(String IR_Code) {
+        this.IR_Code = IR_Code;
     }
-    public void setInspectOpinion(String inspectOpinion) {
-        InspectOpinion = inspectOpinion;
+
+    public String getIR_Type() {
+        return IR_Type;
     }
-    public void setScore(String score) {
-        Score = score;
+
+    public void setIR_Type(String IR_Type) {
+        this.IR_Type = IR_Type;
     }
-    public void setLoggerPID(String loggerPID) {
-        LoggerPID = loggerPID;
+
+    public String getIR_InspectDate() {
+        return IR_InspectDate;
     }
-    public void setLogTime(String logTime) {
-        LogTime = logTime;
+
+    public void setIR_InspectDate(String IR_InspectDate) {
+        this.IR_InspectDate = IR_InspectDate;
     }
-    public void setLastEditorPID(String lastEditorPID) {
-        LastEditorPID = lastEditorPID;
+
+    public String getIR_CompanyID() {
+        return IR_CompanyID;
+    }
+
+    public void setIR_CompanyID(String IR_CompanyID) {
+        this.IR_CompanyID = IR_CompanyID;
+    }
+
+    public String getIR_Inspector() {
+        return IR_Inspector;
+    }
+
+    public void setIR_Inspector(String IR_Inspector) {
+        this.IR_Inspector = IR_Inspector;
+    }
+
+    public String getIR_Score() {
+        return IR_Score;
+    }
+
+    public void setIR_Score(String IR_Score) {
+        this.IR_Score = IR_Score;
+    }
+
+    public String getIR_Content() {
+        return IR_Content;
+    }
+
+    public void setIR_Content(String IR_Content) {
+        this.IR_Content = IR_Content;
+    }
+
+    public String getIR_InspectOpinion() {
+        return IR_InspectOpinion;
+    }
+
+    public void setIR_InspectOpinion(String IR_InspectOpinion) {
+        this.IR_InspectOpinion = IR_InspectOpinion;
+    }
+
+    public String getIR_LoggerPID() {
+        return IR_LoggerPID;
+    }
+
+    public void setIR_LoggerPID(String IR_LoggerPID) {
+        this.IR_LoggerPID = IR_LoggerPID;
+    }
+
+    public String getIR_LogTime() {
+        return IR_LogTime;
+    }
+
+    public void setIR_LogTime(String IR_LogTime) {
+        this.IR_LogTime = IR_LogTime;
+    }
+
+    public String getIR_LastEditorPID() {
+        return IR_LastEditorPID;
+    }
+
+    public void setIR_LastEditorPID(String IR_LastEditorPID) {
+        this.IR_LastEditorPID = IR_LastEditorPID;
     }
 }

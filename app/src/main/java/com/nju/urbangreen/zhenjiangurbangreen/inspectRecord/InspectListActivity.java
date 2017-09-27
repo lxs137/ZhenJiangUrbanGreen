@@ -1,183 +1,275 @@
 package com.nju.urbangreen.zhenjiangurbangreen.inspectRecord;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.nju.urbangreen.zhenjiangurbangreen.R;
+import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseActivity;
+import com.nju.urbangreen.zhenjiangurbangreen.util.CacheUtil;
+import com.nju.urbangreen.zhenjiangurbangreen.util.WebServiceUtils;
+import com.nju.urbangreen.zhenjiangurbangreen.widget.LoadMoreFooterView;
+import com.nju.urbangreen.zhenjiangurbangreen.widget.RefreshHeaderView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import com.nju.urbangreen.zhenjiangurbangreen.R;
-import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseActivity;
-import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseListAdapter;
-import com.nju.urbangreen.zhenjiangurbangreen.events.EventListFragment;
-import com.nju.urbangreen.zhenjiangurbangreen.events.EventRegisterActivity;
-import com.nju.urbangreen.zhenjiangurbangreen.util.ActivityCollector;
-import com.nju.urbangreen.zhenjiangurbangreen.widget.PagerSlidingTabStrip;
-import com.nju.urbangreen.zhenjiangurbangreen.widget.TitleBarLayout;
-import com.nju.urbangreen.zhenjiangurbangreen.widget.TitleSearchView;
-
 public class InspectListActivity extends BaseActivity {
 
-    @BindView(R.id.ly_inspect_list_title_bar)
-    public TitleBarLayout titleBarLayout;//标题栏
-
-    @BindView(R.id.psts_inspect)
-    public PagerSlidingTabStrip tabs;//顶部选项卡
-
-    @BindView(R.id.vp_inspect_content)
-    public ViewPager pager;
-
     @BindView(R.id.floatingbtn_add_inspect)
-    public FloatingActionButton fbtnAddInspect;//悬浮按钮
+    FloatingActionButton fbtnAddInspect;//悬浮按钮
+    @BindView(R.id.Toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.material_search_view)
+    MaterialSearchView searchView;
+    @BindView(R.id.spinner1)
+    Spinner spinner1;
+    @BindView(R.id.spinner2)
+    Spinner spinner2;
+    @BindView(R.id.swipe_target)
+    RecyclerView recyclerInspectList;
+    @BindView(R.id.swipeToLoadLayout)
+    SwipeToLoadLayout swipeToLoadLayout;
+    @BindView(R.id.swipe_refresh_header)
+    RefreshHeaderView swipeRefreshHeader;
+    @BindView(R.id.swipe_load_more_footer)
+    LoadMoreFooterView swipeLoadMoreFooter;
 
-    public InspectPagerAdapter adapter;
-    private String[] tabTitles={"待上传","已上传"};
+    public static final int GET_REGISTER_RESULT = 1;
+    private InspectListAdapter adapter;
+    private List<Inspect> inspectList = new ArrayList<>();
+    private int page = 2;
+    final Map<String, Object> multiQuery = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspect_list);
+        ButterKnife.bind(this);
         initViews();
+        initRecyclerView();
+        getInspectList(multiQuery);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(titleBarLayout.recoverReceiver != null){
-            unregisterReceiver(titleBarLayout.recoverReceiver);
-        }
+    protected void onStart() {
+        super.onStart();
+        CacheUtil.removeRelatedUgos();
     }
 
-    //pager的适配器
-    public class InspectPagerAdapter extends FragmentPagerAdapter {
-
-        private String[] TITLES;
-        private InspectListFragment currFragment;
-        public InspectPagerAdapter(FragmentManager fm, String[] tabTitles){
-            super(fm);
-            this.TITLES=tabTitles;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return InspectListFragment.newInstance(position);
-        }
-
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TITLES[position];
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            currFragment = (InspectListFragment) object;
-        }
-
-
-        public InspectListFragment getCurrFragment(){
-            return currFragment;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case GET_REGISTER_RESULT:
+                if(resultCode == RESULT_OK){
+                    getInspectList(multiQuery);
+                }
+                break;
+            default:
         }
 
     }
 
     //初始化控件
-    public void initViews(){
+    public void initViews() {
         ButterKnife.bind(this);
-        setTitleBarLayout();
-        fbtnAddInspect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(InspectListActivity.this,EventRegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-        adapter = new InspectPagerAdapter(getSupportFragmentManager(),tabTitles);
-        pager.setAdapter(adapter);
+        toolbar.setTitle("巡查记录列表");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tabs.setViewPager(pager);
-        tabs.setTextSize(40);
-
-    }
-    public void setTitleBarLayout(){
-        //初始化TitleBarLayout
-        titleBarLayout.setTitleText("巡查记录");
-        titleBarLayout.setBtnBackClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        //右侧的自定义按钮此时为搜索按钮，点击是会显示出TitleSearchView
-        titleBarLayout.setBtnSelfDefBkg(R.drawable.ic_btn_self_def_search);
-        titleBarLayout.setBtnSelfDefClickListener(new View.OnClickListener() {
+        fbtnAddInspect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //显示出TitleSearchView
-                titleBarLayout.setTsvSearchAvailable();
-            }
-        });
-        //获取TitleSearchView
-        TitleSearchView searchView = titleBarLayout.getSearchView();
-
-        //设置TitleSearchView的监听事件
-        searchView.setOnCloseListener(new TitleSearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                //获取当前的fragment
-                InspectListFragment fragment = (InspectListFragment) getSupportFragmentManager().
-                        findFragmentByTag("android:switcher:" + R.id.vp_inspect_content + ":" + pager.getCurrentItem());
-
-                ((BaseListAdapter)(fragment.getRcyvInspectList().getAdapter())).getFilter().filter("");
-                return false;
+                Intent intent = new Intent(InspectListActivity.this, InspectRegisterActivity.class);
+                startActivityForResult(intent, GET_REGISTER_RESULT);
             }
         });
 
-        searchView.setOnQueryTextListener(new TitleSearchView.OnQueryTextListener() {
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                //获取当前的fragment
-                InspectListFragment fragment = (InspectListFragment) getSupportFragmentManager().
-                        findFragmentByTag("android:switcher:" + R.id.vp_inspect_content + ":" + pager.getCurrentItem());
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                String[] languages = getResources().getStringArray(R.array.inspectType);
 
-                if(query.equals(""))
-                    ((BaseListAdapter)(fragment.getRcyvInspectList().getAdapter())).getFilter().filter("");
-                else
-                    ((BaseListAdapter)(fragment.getRcyvInspectList().getAdapter())).getFilter().filter(query);
+                if(pos>0){
 
-                Log.i("Nomad", "onQueryTextSubmit");
-                return false;
+                    multiQuery.put("type",languages[pos]);
+                }
+                if(pos==0&&multiQuery.containsKey("type")){
+                    multiQuery.remove("type");
+
+                }
+                getInspectList(multiQuery);
             }
-
             @Override
-            public boolean onQueryTextChange(String newText) {
-                //获取当前的fragment
-                InspectListFragment fragment = (InspectListFragment) getSupportFragmentManager().
-                        findFragmentByTag("android:switcher:" + R.id.vp_inspect_content + ":" + pager.getCurrentItem());
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                String[] languages = getResources().getStringArray(R.array.maintainDate);
+                if(pos>0){
+                    multiQuery.put("date",languages[pos]);
+                }
+                if(pos==0&&multiQuery.containsKey("date")){
 
-                if(newText.equals(""))
-                    ((BaseListAdapter)(fragment.getRcyvInspectList().getAdapter())).getFilter().filter("");
+                    multiQuery.remove("date");
+                }
+                getInspectList(multiQuery);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
-                Log.i("Nomad", "onQueryTextChange");
-                return false;
+//        swipeToLoadLayout.setRefreshEnabled(false);
+        swipeToLoadLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getInspectList(multiQuery);
+            }
+        });
+
+        swipeToLoadLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                getInspectList(multiQuery,page, 8);
+                page++;
             }
         });
     }
-    public TitleSearchView getSearchView(){
-        return titleBarLayout.getSearchView();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar_maintain_search, menu);
+        MenuItem item = menu.findItem(R.id.menu_toolbar_item_search);
+        searchView.setMenuItem(item);
+        return super.onCreateOptionsMenu(menu);
     }
+
+    //获得列表第一页数据
+    private void getInspectList(final Map<String, Object> query) {
+        page = 2;
+        swipeToLoadLayout.setLoadMoreEnabled(true);
+
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMessage("加载数据中，请稍候...");
+        loading.show();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                String[] errMsg = new String[1];
+                query.put("page", 1);
+                query.put("limit", 8);
+                final List<Inspect> tempList = WebServiceUtils.getInspectRecord(query, errMsg);
+                if (tempList != null) {
+                    inspectList.clear();
+                    inspectList.addAll(tempList);
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(tempList!=null){
+
+                            findViewById(R.id.task_list_emptyview).setVisibility(View.INVISIBLE);
+                        }
+                        if(tempList==null){
+
+                            inspectList.clear();
+                            findViewById(R.id.floatingbtn_add_inspect).setVisibility(View.INVISIBLE);
+                            findViewById(R.id.task_list_emptyview).setVisibility(View.VISIBLE);
+                        }
+                        loading.dismiss();
+                        adapter.notifyDataSetChanged();
+                        swipeToLoadLayout.setRefreshing(false);
+                    }
+                });
+            }
+        }).start();
+    }
+
+
+    private List<Inspect> getInspectList(final Map<String, Object> query, final int page, final int limit) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String[] errMsg = new String[1];
+                query.put("page", page);
+                query.put("limit", limit);
+                final List<Inspect> newInspectList = WebServiceUtils.getInspectRecord(query, errMsg);
+                if (newInspectList != null) {
+                    inspectList.addAll(newInspectList);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            swipeToLoadLayout.setLoadingMore(false);
+                            if (newInspectList.size() < limit) {
+                                swipeToLoadLayout.setLoadMoreEnabled(false);
+                                Toast.makeText(InspectListActivity.this, "没有更多了", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }else{
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeToLoadLayout.setLoadingMore(false);
+                            swipeToLoadLayout.setLoadMoreEnabled(false);
+                            Toast.makeText(InspectListActivity.this, "没有更多了", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+        return inspectList;
+    }
+
+    private void initRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerInspectList.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerInspectList.getContext(),
+                linearLayoutManager.getOrientation());
+        recyclerInspectList.addItemDecoration(dividerItemDecoration);
+        adapter = new InspectListAdapter(inspectList);
+        recyclerInspectList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
 }

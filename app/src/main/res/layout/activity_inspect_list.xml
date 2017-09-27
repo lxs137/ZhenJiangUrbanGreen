@@ -1,52 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-
-tools:context="com.nju.urbangreen.zhenjiangurbangreen.inspectRecord.InspectListActivity">
-
-<com.nju.urbangreen.zhenjiangurbangreen.widget.TitleBarLayout
-    android:id="@+id/ly_inspect_list_title_bar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
-
-</com.nju.urbangreen.zhenjiangurbangreen.widget.TitleBarLayout>
-
-<com.nju.urbangreen.zhenjiangurbangreen.widget.PagerSlidingTabStrip
-    android:layout_below="@+id/ly_inspect_list_title_bar"
-    android:id="@+id/psts_inspect"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    app:pstsIndicatorHeight="2dp"
-    app:pstsShouldExpand="true"
-    app:pstsTabPaddingLeftRight="2dp"
-    app:pstsUnderlineHeight="2dp"></com.nju.urbangreen.zhenjiangurbangreen.widget.PagerSlidingTabStrip>
-
-
-<android.support.v4.view.ViewPager
-    android:id="@+id/vp_inspect_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/psts_inspect">
+    android:orientation="vertical"
+    tools:context="com.nju.urbangreen.zhenjiangurbangreen.inspectRecord.InspectListActivity">
 
-</android.support.v4.view.ViewPager>
+    <include layout="@layout/toolbar" />
 
-<android.support.design.widget.FloatingActionButton
-    android:id="@+id/floatingbtn_add_inspect"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"
-    android:layout_margin="16dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner1"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:entries="@array/inspectType" />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:entries="@array/maintainDate" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+
+            <include layout="@layout/recycler_loadmore_view"/>
+            <include layout="@layout/task_list_emptyview" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingbtn_add_inspect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_floatingbtn_add"
+                app:elevation="8dp" />
+        </FrameLayout>
+    </LinearLayout>
 
 
-    android:backgroundTint="@color/colorAccent"
-    android:src="@drawable/ic_floatingbtn_add"
-    app:borderWidth="0dp"
-    app:elevation="8dp"
-    app:pressedTranslationZ="16dp"
-    app:rippleColor="#33728dff" />
-</RelativeLayout>
+</LinearLayout>

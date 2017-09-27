@@ -19,7 +19,7 @@ import io.realm.RealmResults;
  */
 
 public class CacheUtil {
-    private static final String UGO_KEY = "HasUGO", UGO_SUG_KEY = "HasUGOSug";
+    private static final String UGO_KEY = "HasUGO", UGO_SUG_KEY = "HasUGOSug", UGO_RELATED_KEY="HasRelatedUgo";
 
     private static ACache m_cache = null;
 
@@ -87,6 +87,25 @@ public class CacheUtil {
         instance().remove(UGO_SUG_KEY + "UGO_Code");
         instance().remove(UGO_SUG_KEY + "UGO_Address");
         SPUtils.put(UGO_SUG_KEY, false);
+    }
+
+    public static boolean hasRelatedUgos(){
+        return instance().getAsObjectList(UGO_RELATED_KEY)!=null;
+    }
+
+    public static void putRelatedUgos(List<GreenObject> objs){
+        instance().put(UGO_RELATED_KEY,objs.toArray());
+    }
+
+    public static List<GreenObject> getRelatedUgos(){
+        if(!hasUGOs()){
+            return null;
+        }
+        return instance().getAsObjectList(UGO_RELATED_KEY);
+    }
+
+    public static void removeRelatedUgos(){
+        instance().remove(UGO_RELATED_KEY);
     }
 
     public static String getFileLocalPath(String fileID) {

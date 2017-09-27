@@ -26,7 +26,8 @@ import java.util.Locale;
 
 public class FileUtil {
     public static String getBaseMapTPKDir() {
-        return getAttachSaveDir() + "tpk" + File.separator;
+//        return getAttachSaveDir() + "tpk" + File.separator;
+        return getAppFileDir() + "tpk" + File.separator;
     }
 
     public static String getAttachSaveDir() {

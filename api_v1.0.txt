@@ -9,6 +9,8 @@ Param中带"*"的为一定包含的参数
         bool submit 是否提交,
         bool assess 是否审核,
         string UGO_ID 绿化对象ID
+        string maintianType 管养类型
+        string date 管养日期
     }
     Return: List<{
         MR_ID
@@ -34,7 +36,6 @@ Param中带"*"的为一定包含的参数
         MR_SubmitorName
     }>
 
-
 2.获取管养记录涉及绿化对象(所有种类，包括绿地、古树名木、行道树)
     Method: GetMaintainRecordUGO
     Param: {
@@ -54,7 +55,8 @@ Param中带"*"的为一定包含的参数
     *   int limit,
         string type 类型,
         string UGO_ID 绿化对象ID
-    }
+        string date 巡查日期
+    }
     Return: List<{
         IR_ID
         IR_Code
@@ -94,7 +96,9 @@ Param中带"*"的为一定包含的参数
         bool is_activity 是否为活动
         bool is_conclude 是否结案
         string UGO_ID 绿化对象ID
-    }
+        string date 事件日期
+        string eventType 事件类型
+    }
     Return: List<{
         UGE_Code
         UGE_DamageDegree
@@ -412,6 +416,35 @@ Param中带"*"的为一定包含的参数
         UGO_ClassType_ID
         UGO_Name
         UGO_Address
+    }>
+    
+3.搜索管养记录
+    Method: SearchMaintainRecord
+    Param: {
+    *   string code 管养对象MR_Code(精确搜索)
+    }
+    Return: List<{
+        MR_ID
+        MR_Code
+        MR_CompanyID
+        MR_MaintainType
+        MR_MaintainStaff
+        MR_MaintainDate
+        MR_MaintainContent
+        MR_AssessStatus
+        MR_AssessorPID
+        MR_AssessTime
+        MR_AssessDescription
+        MR_LoggerPID
+        MR_LogTime
+        MR_LastEditorPID
+        MR_LastEditTime
+        MR_SubmitStatus
+        MR_SubmitorPID
+        MR_SubmitTime
+        MR_LoggerName
+        MR_LastEditorName
+        MR_SubmitorName
     }>
 
 

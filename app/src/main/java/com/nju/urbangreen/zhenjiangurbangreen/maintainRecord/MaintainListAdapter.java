@@ -1,40 +1,56 @@
 package com.nju.urbangreen.zhenjiangurbangreen.maintainRecord;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nju.urbangreen.zhenjiangurbangreen.R;
+import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseItemViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lxs on 2016/11/28.
+ * Created by tommy on 2017/8/17.
  */
-public class MaintainListAdapter extends RecyclerView.Adapter<MaintainViewHolder> implements Filterable{
+
+public class MaintainListAdapter extends RecyclerView.Adapter<BaseItemViewHolder>{
     private List<Maintain> maintainList;
-    private MaintainFilter maintainFilter;
-    private int position;//用来记录事件活动当前处在哪个fragment上
+//    private BaseItemViewHolder viewHolder;
 
-    public MaintainListAdapter(List<Maintain> list)
-    {
-        this.maintainList=list;
+    public MaintainListAdapter(List<Maintain> maintainList) {
+        this.maintainList = maintainList;
     }
 
     @Override
-    public MaintainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=View.inflate(parent.getContext(), R.layout.recycleritem_maintain,null);
-        MaintainViewHolder holder=new MaintainViewHolder(view);
-        return holder;
+    public BaseItemViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_item, parent, false);
+        final BaseItemViewHolder viewHolder = new BaseItemViewHolder(view);
+        viewHolder.itemTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resolveClick(viewHolder,view);
+            }
+        });
+        viewHolder.itemContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resolveClick(viewHolder,view);
+            }
+        });
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MaintainViewHolder holder, int position) {
-        holder.setMaintainData(maintainList.get(position));
+    public void onBindViewHolder(BaseItemViewHolder viewHolder, int i) {
+        Maintain maintain = maintainList.get(i);
+        viewHolder.itemTitle.setText(maintain.MR_Code + "/" + maintain.MR_MaintainType);
+        viewHolder.itemContent.setText(maintain.MR_MaintainContent);
+
     }
 
     @Override
@@ -42,71 +58,14 @@ public class MaintainListAdapter extends RecyclerView.Adapter<MaintainViewHolder
         return maintainList.size();
     }
 
-    @Override
-    public Filter getFilter(){
-        if(this.maintainFilter == null){
-            this.maintainFilter = new MaintainFilter(this,maintainList);
-        }
-        return this.maintainFilter;
-    }
+    private void resolveClick(BaseItemViewHolder viewHolder, View view) {
+        int position = viewHolder.getAdapterPosition();
+//        Toast.makeText(view.getContext(), position + "", Toast.LENGTH_SHORT).show();
+        Maintain maintain = maintainList.get(position);
 
-    public void updateDataFromDB()
-    {
-        //从数据库查询得到最新的事件列表
-//        List<Maintain> updateList=new ArrayList<>(UrbanGreenDB.getInstance(MyApplication.getContext())
-//                .loadEventsWithDiffState(this.position));
-//        //更新源事件列表
-//        this.maintainFilter.freshOriginList(updateList);
-    }
+        Intent intent = new Intent(view.getContext(), MaintainRegisterActivity.class);
+        intent.putExtra("maintain_object", maintain);
 
-    public void updateDataFromWeb()
-    {
-        //todo get data from web
-    }
-
-    private class MaintainFilter extends Filter
-    {
-        private final MaintainListAdapter m_adapter;
-        private List<Maintain> m_originList;//源数据，所有的养护记录
-        private List<Maintain> m_filteredList;//过滤后返回的养护记录
-
-        public MaintainFilter(MaintainListAdapter adapter,List<Maintain> originList)
-        {
-            this.m_adapter=adapter;
-            this.m_originList=new ArrayList<>(originList);
-            this.m_filteredList=new ArrayList<>();
-        }
-        public void freshOriginList(List<Maintain> originList)
-        {
-            this.m_originList=new ArrayList<>(originList);
-        }
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            //从本地数据库获得最新的养护记录列表
-            updateDataFromDB();
-
-            String filterStr=constraint.toString().toLowerCase().trim();
-            FilterResults results=new FilterResults();
-            m_filteredList.clear();
-            if(TextUtils.isEmpty(filterStr))
-                m_filteredList.addAll(m_originList);
-            else {
-//                for(Maintain object:m_originList)
-//                {
-//                    if(object.getID().contains(filterStr)
-//                        || object.getCode().contains(filterStr))
-//                        m_filteredList.add(object);
-//                }
-            }
-            results.values=m_filteredList;
-            results.count=m_filteredList.size();
-            return results;
-        }
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            m_adapter.maintainList.clear();
-            m_adapter.maintainList.addAll((ArrayList<Maintain>)results.values);
-            m_adapter.notifyDataSetChanged();
-        }
+        view.getContext().startActivity(intent);
     }
 }

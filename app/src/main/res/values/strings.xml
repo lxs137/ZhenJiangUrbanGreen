@@ -22,6 +22,13 @@
         <item>人为事故</item>
         <item>交通事故</item>
     </string-array>
+    <string-array name="messageTypeDropList">
+        <item>已读消息</item>
+        <item>未读消息 </item>
+    </string-array>
+    <string name="spinner1_title">类型</string>
+    <string name="spinner2_title">时间</string>
+    <string name="spinner3_title">是否审核</string>
     <string name="uploading">上传中.. [[UPLOAD_RATE]] - [[PROGRESS]]</string>
     <string name="upload_success">上传完成，耗费 [[ELAPSED_TIME]]</string>
     <string name="upload_error">上传出错</string>

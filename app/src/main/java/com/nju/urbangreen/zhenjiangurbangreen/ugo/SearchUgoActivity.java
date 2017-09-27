@@ -75,7 +75,7 @@ public class SearchUgoActivity extends BaseActivity {
 
 
     private void initToolbar() {
-        toolbar.setTitle("搜索相关对象");
+        toolbar.setTitle("搜索绿化对象");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

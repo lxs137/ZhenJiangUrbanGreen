@@ -28,7 +28,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:entries="@array/languages" />
+                android:entries="@array/maintainType" />
 
             <Spinner
                 android:id="@+id/spinner2"
@@ -38,7 +38,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:entries="@array/languages" />
+                android:entries="@array/maintainDate" />
 
             <Spinner
                 android:id="@+id/spinner3"
@@ -48,17 +48,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:entries="@array/languages" />
+                android:entries="@array/maintainStatus" />
 
-            <Spinner
-                android:id="@+id/spinner4"
-                style="@android:style/Widget.Holo.Light.Spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:entries="@array/languages" />
         </LinearLayout>
 
         <FrameLayout
@@ -66,10 +57,13 @@
             android:layout_height="0dp"
             android:layout_weight="8">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_maintain_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <include layout="@layout/recycler_loadmore_view"/>
+
+
+          
+
+
+            <include layout="@layout/task_list_emptyview" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingbtn_add_maintain"

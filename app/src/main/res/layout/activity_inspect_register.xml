@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".inspectRecord.InspectRegisterActivity"
+    >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            layout="@layout/toolbar"/>
-    </FrameLayout>
+    <include layout="@layout/toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -73,10 +72,11 @@
                     android:text="事件类型"
                     android:textSize="12sp"
                     android:textColor="@color/colorAccent"/>
-                <android.support.v7.widget.AppCompatSpinner
-                    android:layout_width="match_parent"
+                <com.nju.urbangreen.zhenjiangurbangreen.widget.DropdownEditText
+                    android:id="@+id/droplist_inspectInfo_type"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spn_inspectInfo_type" />
+                    android:layout_width="match_parent">
+                </com.nju.urbangreen.zhenjiangurbangreen.widget.DropdownEditText>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -236,22 +236,20 @@
                     android:id="@+id/tv_inspectInfo_LastEditorPID"
                     android:textSize="24sp"/>
             </LinearLayout>
-            <LinearLayout
+
+            <android.support.v7.widget.AppCompatButton
+                android:background="@drawable/button_shape"
+                android:id="@+id/btn_inspect_register_submit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp">
-                <android.support.v7.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:elevation="2dp"
-                    android:text="查看附件"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="24sp"/>
-            </LinearLayout>
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="8dp"
+                android:text="提交"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"/>
+
         </LinearLayout>
 
     </ScrollView>

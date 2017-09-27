@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="-61dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    tools:ignore="RtlHardcoded,RtlSymmetry" >
+
+	<Button
+        android:id="@+id/btnDelete"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:text="删除" />
+
+    <TextView
+        android:id="@+id/Sender_Label2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="发件人:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Sender_Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/Sender_Label2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="猪猪"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/Msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/Sender_Label2"
+        android:layout_toLeftOf="@id/btnDelete"
+        android:layout_below="@id/Sender_Label2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:text="999"/>
+    <TextView
+        android:id="@+id/Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_toLeftOf="@id/btnDelete"
+        android:layout_below="@id/Msg"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:inputType="none"
+        android:text="2014-9-99 8：20"
+        android:textStyle="italic" />
+
+</RelativeLayout>

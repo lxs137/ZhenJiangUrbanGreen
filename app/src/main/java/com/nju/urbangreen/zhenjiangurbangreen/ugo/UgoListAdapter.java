@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nju.urbangreen.zhenjiangurbangreen.R;
+import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseItemViewHolder;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.GreenObject;
 import com.nju.urbangreen.zhenjiangurbangreen.map.SimpleMapActivity;
 
@@ -22,25 +23,33 @@ import java.util.List;
  * Created by tommy on 2017/8/9.
  */
 
-public class UgoListAdapter extends RecyclerView.Adapter<UgoListAdapter.ViewHolder> implements View.OnClickListener {
+public class UgoListAdapter extends RecyclerView.Adapter<BaseItemViewHolder> {
     private List<GreenObject> mUgoList;
-    private ViewHolder holder;
 
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+    public BaseItemViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_item, parent, false);
-        holder = new ViewHolder(view);
-        holder.ugoView.setOnClickListener(this);
-        holder.ugoIdName.setOnClickListener(this);
-        holder.ugoAddress.setOnClickListener(this);
+        final BaseItemViewHolder holder = new BaseItemViewHolder(view);
+        holder.itemTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resolveClickEvent(view,holder);
+            }
+        });
+        holder.itemContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resolveClickEvent(view,holder);
+            }
+        });
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final BaseItemViewHolder holder, int position) {
         GreenObject ugObject = mUgoList.get(position);
-        holder.ugoIdName.setText(ugObject.UGO_ID + "/" + ugObject.UGO_Name);
-        holder.ugoAddress.setText(ugObject.UGO_Address);
+        holder.itemTitle.setText(ugObject.UGO_Ucode + "/" + ugObject.UGO_Name);
+        holder.itemContent.setText(ugObject.UGO_Address);
     }
 
     @Override
@@ -48,9 +57,9 @@ public class UgoListAdapter extends RecyclerView.Adapter<UgoListAdapter.ViewHold
         return mUgoList.size();
     }
 
-    @Override
-    public void onClick(View view) {
-        int position = holder.getAdapterPosition();
+    private void resolveClickEvent(View view,BaseItemViewHolder viewHolder) {
+        int position = viewHolder.getAdapterPosition();
+//        Toast.makeText(view.getContext(), position + "", Toast.LENGTH_SHORT).show();
         GreenObject object = mUgoList.get(position);
         Intent intent = new Intent(view.getContext(), SimpleMapActivity.class);
         intent.putExtra("type", object.UGO_ClassType_ID);
@@ -61,19 +70,6 @@ public class UgoListAdapter extends RecyclerView.Adapter<UgoListAdapter.ViewHold
         } catch (Exception e) {
             Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-        }
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View ugoView;
-        EditText ugoIdName;
-        EditText ugoAddress;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ugoView = itemView;
-            ugoIdName = (EditText) itemView.findViewById(R.id.recycler_title);
-            ugoAddress = (EditText) itemView.findViewById(R.id.recycler_content);
         }
     }
 

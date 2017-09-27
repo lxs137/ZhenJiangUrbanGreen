@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import com.nju.urbangreen.zhenjiangurbangreen.PollingService;
 import com.nju.urbangreen.zhenjiangurbangreen.R;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.util.ActivityCollector;
@@ -36,6 +37,10 @@ public class WelcomeActivity extends Activity {
             int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             decorView.setSystemUiVisibility(uiOptions);
         }
+
+        Intent intentService = new Intent(this,PollingService.class);
+        startService(intentService);
+
         handler.sendEmptyMessageDelayed(0, 2000);
     }
 

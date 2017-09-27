@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_ugo"
+        android:icon="@drawable/ic_btn_self_def_add"
+        android:title="添加养护对象"
+        app:showAsAction="always"/>
+</menu>

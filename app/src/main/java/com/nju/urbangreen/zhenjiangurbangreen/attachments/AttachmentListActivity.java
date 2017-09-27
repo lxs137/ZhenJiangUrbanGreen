@@ -38,7 +38,8 @@ public class AttachmentListActivity extends BaseActivity {
     @BindView(R.id.refresh_attachment_list)
     public SwipeRefreshLayout refreshLayout;
 
-    private String parentID = "0420b1b8-5b20-4213-9b5f-586dbca94ef7";
+//    private String parentID = "0420b1b8-5b20-4213-9b5f-586dbca94ef7";
+    private String parentID ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,9 @@ public class AttachmentListActivity extends BaseActivity {
         initRefreshButton();
         initToolbar();
         setUploadButton();
+
+        Intent intent = getIntent();
+        parentID = intent.getStringExtra("id");
 
         rcvAttachmentRecords.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AttachmentAdapter(AttachmentListActivity.this, parentID);

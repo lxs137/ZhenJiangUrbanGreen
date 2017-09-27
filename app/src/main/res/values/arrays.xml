@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="languages">
-        <item>c语言</item>
-        <item>java </item>
-        <item>php</item>
-        <item>xml</item>
-        <item>html</item>
+    <string-array name="maintainType">
+        <item>管养类型</item>
+        <item>浇水排水</item>
+        <item>施肥</item>
+        <item>修剪</item>
+        <item>病虫害防治</item>
+        <item>松土除草</item>
+        <item>补栽</item>
+        <item>扶正支撑</item>
+        <item>绿地容貌</item>
+        <item>安全施工</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="maintainDate">
+        <item>年份</item>
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+    </string-array>
+    <string-array name="maintainStatus">
+        <item>审核情况</item>
+        <item>是</item>
+        <item>否</item>
+    </string-array>
+    <string-array name="eventType">
+        <item>事件类型</item>
+        <item>自然灾害</item>
+        <item>病虫灾害</item>
+        <item>人为事故</item>
+        <item>交通事故</item>
+    </string-array>
+    <string-array name="inspectType">
+        <item>巡查类型</item>
+        <item>保洁考核</item>
+        <item>管养考核</item>
+        <item>日常巡查</item>
     </string-array>
 </resources>

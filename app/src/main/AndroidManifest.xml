@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.nju.urbangreen.zhenjiangurbangreen">
+    package="com.nju.urbangreen.zhenjiangurbangreen">
 
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".util.MyApplication"
@@ -22,58 +22,53 @@
             android:name=".map.MapActivity"
             android:windowSoftInputMode="stateHidden">
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN"/>-->
-             <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-             <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".search.SearchActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".navigation.NaviActivity"/>
+        <activity android:name=".navigation.NaviActivity" />
         <activity android:name=".settings.SettingsActivity">
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN"/>-->
-             <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-             <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".startup.WelcomeActivity"
             android:theme="@style/TranslucentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN"/>
-
-             <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".startup.LoginActivity"/>
+        <activity android:name=".startup.LoginActivity" />
 
         <service
             android:name=".util.DownloadNewApkService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <activity android:name=".inspectRecord.InspectInfoActivity"/>
-        <activity android:name=".maintainRecord.MaintainRegisterActivity"/>
-        <activity
-            android:name=".events.EventListActivity"
-            android:windowSoftInputMode="stateHidden">
+        <activity android:name=".inspectRecord.InspectRegisterActivity" />
+        <activity android:name=".maintainRecord.MaintainRegisterActivity" />
+        <activity android:name=".message.MessageListActivity">
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity
-            android:name=".events.EventRegisterActivity"
-            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".attachments.AttachmentListActivity">
 
             <!-- <intent-filter> -->
@@ -81,25 +76,36 @@
             <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".inspectRecord.InspectListActivity"/>
+        <activity android:name=".inspectRecord.InspectListActivity" />
         <activity
             android:name=".maintainRecord.MaintainListActivity"
-            android:exported="true"/>
-        <activity android:name=".ugo.UgoListActivity"/>
+            android:exported="true" />
+        <activity android:name=".ugo.UgoListActivity" />
         <activity
             android:name=".ugo.SearchUgoActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".search.UGOInfoActivity">
-        </activity>
-        <activity android:name=".map.SimpleMapActivity">
-        </activity>
+            android:exported="true" />
+        <activity android:name=".search.UGOInfoActivity" />
+        <activity android:name=".map.SimpleMapActivity" />
         <activity android:name=".settings.SystemFileActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
+
+        <service
+            android:name=".PollingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nju.urbangreen.zhenjiangurbangreen.PollingService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".message.AlarmReceiver" />
+
+        <activity android:name=".basisClass.BaseListActivity"></activity>
     </application>
 
 </manifest>
