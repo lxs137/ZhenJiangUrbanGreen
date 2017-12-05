@@ -122,9 +122,12 @@ public class ActivityRegisterActivity extends BaseRegisterActivity {
         switch (item.getItemId()) {
             case R.id.attachment:
                 Intent intent = new Intent(ActivityRegisterActivity.this, AttachmentListActivity.class);
-                if (eventId != null)
+                if (eventId != null) {
                     intent.putExtra("id", eventId);
-                startActivity(intent);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "请先保存信息再上传附件", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.greenObjects:
                 Intent intent2 = new Intent(ActivityRegisterActivity.this, UgoListActivity.class);
@@ -161,7 +164,7 @@ public class ActivityRegisterActivity extends BaseRegisterActivity {
         int year, month, day;
         currentCalendar = Calendar.getInstance();
         year = currentCalendar.get(Calendar.YEAR);
-        month = currentCalendar.get(Calendar.MONTH) + 1;
+        month = currentCalendar.get(Calendar.MONTH);
         day = currentCalendar.get(Calendar.DAY_OF_MONTH);
         dtpckEventDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -169,6 +172,7 @@ public class ActivityRegisterActivity extends BaseRegisterActivity {
                 etDateSelect.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
         }, year, month, day);
+        dtpckEventDate.getDatePicker().setMaxDate(currentCalendar.getTimeInMillis());
         etDateSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

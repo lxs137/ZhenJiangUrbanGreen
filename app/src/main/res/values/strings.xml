@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZhenJiangUrbanGreen</string>
+    <string name="app_name">镇江绿化</string>
     <string-array name="insepctTypeDropList">
         <item>保洁考核</item>
         <item>管养考核</item>
@@ -33,4 +33,5 @@
     <string name="upload_success">上传完成，耗费 [[ELAPSED_TIME]]</string>
     <string name="upload_error">上传出错</string>
     <string name="upload_cancelled">上传被取消</string>
+    <string name="save">保存</string>
 </resources>

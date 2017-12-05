@@ -108,9 +108,12 @@ public class InspectRegisterActivity extends BaseRegisterActivity {
         switch (item.getItemId()) {
             case R.id.attachment:
                 Intent intent = new Intent(this, AttachmentListActivity.class);
-                if (inspectId != null)
+                if (inspectId != null) {
                     intent.putExtra("id", inspectId);
-                startActivity(intent);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "请先保存信息再上传附件", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.greenObjects:
                 Intent intent2 = new Intent(this, UgoListActivity.class);
@@ -147,7 +150,7 @@ public class InspectRegisterActivity extends BaseRegisterActivity {
         int year, month, day;
         currentCalendar = Calendar.getInstance();
         year = currentCalendar.get(Calendar.YEAR);
-        month = currentCalendar.get(Calendar.MONTH) + 1;
+        month = currentCalendar.get(Calendar.MONTH);
         day = currentCalendar.get(Calendar.DAY_OF_MONTH);
         dtpckInspectDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -155,6 +158,7 @@ public class InspectRegisterActivity extends BaseRegisterActivity {
                 etInspectInfoDate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
         }, year, month, day);
+        dtpckInspectDate.getDatePicker().setMaxDate(currentCalendar.getTimeInMillis());
         etInspectInfoDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +213,8 @@ public class InspectRegisterActivity extends BaseRegisterActivity {
         inspectObject = new Inspect();
         inspectObject.setIR_Type(droplistInspectInfoType.getText());
         inspectObject.setIR_InspectDate(etInspectInfoDate.getText().toString());
-        inspectObject.setIR_ID(tvInspectInfoCode.getText().toString());
+        inspectObject.setIR_Code(tvInspectInfoCode.getText().toString());
+        inspectObject.setIR_ID(inspectId);
         inspectObject.setUGO_IDs(getUGOIDs());
         Log.d("ira", "outputObject: "+getUGOIDs());
         if(etInspectInfoOpinion.getText()!=null){

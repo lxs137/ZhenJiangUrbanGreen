@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,12 +18,10 @@ import android.widget.Toast;
 
 import com.nju.urbangreen.zhenjiangurbangreen.R;
 import com.nju.urbangreen.zhenjiangurbangreen.attachments.AttachmentListActivity;
-import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseRegisterActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.Constants;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.GreenObject;
 import com.nju.urbangreen.zhenjiangurbangreen.ugo.UgoListActivity;
-import com.nju.urbangreen.zhenjiangurbangreen.util.ACache;
 import com.nju.urbangreen.zhenjiangurbangreen.util.CacheUtil;
 import com.nju.urbangreen.zhenjiangurbangreen.util.WebServiceUtils;
 import com.nju.urbangreen.zhenjiangurbangreen.widget.DropdownEditText;
@@ -105,9 +102,12 @@ public class MaintainRegisterActivity extends BaseRegisterActivity {
         switch (item.getItemId()) {
             case R.id.attachment:
                 Intent intent = new Intent(MaintainRegisterActivity.this, AttachmentListActivity.class);
-                if (maintainId != null)
+                if (maintainId != null) {
                     intent.putExtra("id", maintainId);
-                startActivity(intent);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "请先保存信息再上传附件", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.greenObjects:
                 Intent intent2 = new Intent(MaintainRegisterActivity.this, UgoListActivity.class);
@@ -144,7 +144,7 @@ public class MaintainRegisterActivity extends BaseRegisterActivity {
         int year, month, day;
         currentCalendar = Calendar.getInstance();
         year = currentCalendar.get(Calendar.YEAR);
-        month = currentCalendar.get(Calendar.MONTH) + 1;
+        month = currentCalendar.get(Calendar.MONTH);
         day = currentCalendar.get(Calendar.DAY_OF_MONTH);
         dtpckMaintainDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -152,6 +152,7 @@ public class MaintainRegisterActivity extends BaseRegisterActivity {
                 etMaintainDate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
         }, year, month, day);
+        dtpckMaintainDate.getDatePicker().setMaxDate(currentCalendar.getTimeInMillis());
         etMaintainDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,6 +206,7 @@ public class MaintainRegisterActivity extends BaseRegisterActivity {
 
     private void outputObject() {
         maintainObject = new Maintain();
+        maintainObject.MR_ID = maintainId;
         maintainObject.MR_MaintainType = dropdownMaintainType.getText();
         maintainObject.MR_MaintainDate = etMaintainDate.getText().toString();
         maintainObject.MR_MaintainStaff = etMaintainStaff.getText().toString();
@@ -239,7 +241,11 @@ public class MaintainRegisterActivity extends BaseRegisterActivity {
                 etMaintainStaff.setBackground(getResources().getDrawable(R.drawable.bkg_edittext));
             showPrompt(flag);
             return false;
-        } else {
+        } else if( getUGOIDs().equals("")){
+            Toast.makeText(this, "绿化对象不能为空！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else {
             return true;
         }
     }

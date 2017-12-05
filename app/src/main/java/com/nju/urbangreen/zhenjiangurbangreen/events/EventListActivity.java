@@ -92,6 +92,7 @@ public class EventListActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         CacheUtil.removeRelatedUgos();
+        getEvent(multiQuery);
     }
 
     @Override

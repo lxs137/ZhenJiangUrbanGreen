@@ -3,19 +3,15 @@ package com.nju.urbangreen.zhenjiangurbangreen.ugo;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.goyourfly.multiple.adapter.MultipleAdapter;
 import com.goyourfly.multiple.adapter.MultipleSelect;
 import com.goyourfly.multiple.adapter.menu.SimpleDeleteMenuBar;
@@ -58,7 +54,6 @@ public class UgoListActivity extends BaseActivity {
 
     private final int TEXT_SELECT = 1, MAP_SELECT = 2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +69,8 @@ public class UgoListActivity extends BaseActivity {
         activity = intent.getStringExtra("activity");
 
 //        mCache = ACache.get(this);
-
-        if (CacheUtil.hasRelatedUgos() && id !=null) {
+//CacheUtil.hasRelatedUgos() && id !=null
+        if (CacheUtil.hasRelatedUgos()) {
             getUgosFromCache();
         } else if (id != null) {
             getUgosFromWeb();
@@ -95,6 +90,8 @@ public class UgoListActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UgoListActivity.this, SearchUgoActivity.class);
+                mCache = ACache.get(UgoListActivity.this);
+                mCache.put("ugo_select",ugObjectList.toArray());
                 startActivityForResult(intent, TEXT_SELECT);
             }
         });

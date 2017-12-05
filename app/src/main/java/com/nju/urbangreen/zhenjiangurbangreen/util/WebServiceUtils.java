@@ -614,17 +614,17 @@ public class WebServiceUtils {
 
 
 
-    public static boolean AddMaintainRecord(String[] errorMessage,Maintain inspectObject) {
+    public static boolean AddMaintainRecord(String[] errorMessage,Maintain maintainObject) {
         if (is_offline()) {
             errorMessage[0] = "网络连接断开，请稍后再试";
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("type", inspectObject.MR_MaintainType);
-        params.put("date", inspectObject.MR_MaintainDate);
-        params.put("staff", inspectObject.MR_MaintainStaff);
-        params.put("UGO_ID", inspectObject.UGO_IDs);
-        if (inspectObject.MR_MaintainContent != null) {
-            params.put("content", inspectObject.MR_MaintainContent);
+        params.put("type", maintainObject.MR_MaintainType);
+        params.put("date", maintainObject.MR_MaintainDate);
+        params.put("staff", maintainObject.MR_MaintainStaff);
+        params.put("UGO_ID", maintainObject.UGO_IDs);
+        if (maintainObject.MR_MaintainContent != null) {
+            params.put("content", maintainObject.MR_MaintainContent);
         }
 
         Map<String, Object> results = callMethod(Add_Maintain_Record, params);

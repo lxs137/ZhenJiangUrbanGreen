@@ -4,12 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +27,6 @@ import com.nju.urbangreen.zhenjiangurbangreen.R;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.GreenObject;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.GreenObjectSug;
-import com.nju.urbangreen.zhenjiangurbangreen.map.BufferMapActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.util.ACache;
 import com.nju.urbangreen.zhenjiangurbangreen.util.CacheUtil;
 import com.nju.urbangreen.zhenjiangurbangreen.util.ListUtil;
@@ -122,8 +121,14 @@ public class SearchUgoActivity extends BaseActivity {
 //                            Log.d("tag", "selectresult" + selectResult.size());
                             ACache mCache = ACache.get(SearchUgoActivity.this);
                             List<GreenObject> selectList = mCache.getAsObjectList("ugo_select");
+                            for(GreenObject o : selectList){
+                                Log.d("selectlist ",o.UGO_Address);
+                            }
                             searchResult = ListUtil.trim(searchResult, selectList);  //去除已经选择的item
                             adapter.notifyDataSetChanged();
+                            for(GreenObject o : searchResult){
+                                Log.d("selectlist ",o.UGO_Address);
+                            }
 //                            searchResult.removeAll(selectList); //去除已经选择的item
 //                            searchResult.removeAll(selectResult);     //去除已经选择的item
 //                            Log.d("tag", "searchresultafter" + searchResult.size() + "");

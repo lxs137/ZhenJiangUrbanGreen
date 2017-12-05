@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -22,12 +21,10 @@ import com.nju.urbangreen.zhenjiangurbangreen.attachments.AttachmentListActivity
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.BaseRegisterActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.Constants;
 import com.nju.urbangreen.zhenjiangurbangreen.basisClass.GreenObject;
-import com.nju.urbangreen.zhenjiangurbangreen.events.OneEvent;
 import com.nju.urbangreen.zhenjiangurbangreen.ugo.UgoListActivity;
 import com.nju.urbangreen.zhenjiangurbangreen.util.CacheUtil;
 import com.nju.urbangreen.zhenjiangurbangreen.util.WebServiceUtils;
 import com.nju.urbangreen.zhenjiangurbangreen.widget.DropdownEditText;
-import com.nju.urbangreen.zhenjiangurbangreen.widget.TitleBarLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -139,9 +136,12 @@ public class EventRegisterActivity extends BaseRegisterActivity {
         switch (item.getItemId()) {
             case R.id.attachment:
                 Intent intent = new Intent(EventRegisterActivity.this, AttachmentListActivity.class);
-                if (eventId != null)
+                if (eventId != null) {
                     intent.putExtra("id", eventId);
-                startActivity(intent);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "请先保存信息再上传附件", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.greenObjects:
                 Intent intent2 = new Intent(EventRegisterActivity.this, UgoListActivity.class);
@@ -178,7 +178,7 @@ public class EventRegisterActivity extends BaseRegisterActivity {
         int year, month, day;
         currentCalendar = Calendar.getInstance();
         year = currentCalendar.get(Calendar.YEAR);
-        month = currentCalendar.get(Calendar.MONTH) + 1;
+        month = currentCalendar.get(Calendar.MONTH);
         day = currentCalendar.get(Calendar.DAY_OF_MONTH);
         dtpckEventDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -186,6 +186,7 @@ public class EventRegisterActivity extends BaseRegisterActivity {
                 etDateSelect.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
         }, year, month, day);
+        dtpckEventDate.getDatePicker().setMaxDate(currentCalendar.getTimeInMillis());
         etDateSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
